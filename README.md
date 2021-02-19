@@ -41,7 +41,7 @@ Provide me with an R [Shiny app](https://shiny.rstudio.com/) and associated code
 * Click 'submit' once the file has uploaded, and then
 * Download the associated output file(s).
 
-You can host the Shiny app if you want, but it's totally fine if you just send me your script for it. Then I'll use 
+_Why this level?_ Everyone can use this tool, no matter their experience with programming, which makes it incredibly useful.
 
 ## Submission
 
