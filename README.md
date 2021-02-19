@@ -21,7 +21,7 @@ Provide me with a single script/set of scripts in R in which:
 
 _Why this level?_ Students and RAs in the lab who are just learning how to script are likely doing so in R, particularly in RStudio. Even if they're just beginning, they will probably know how to open, minorly edit, and run individual scripts, and so would be able to use this tool independently.
 
-### Level 2: Command-line script, paths as arguments
+### Level 2: Command-line script, input path as argument
 
 Provide me with a shell script and associated code for running this tool at the command line. Your tool should:
 
