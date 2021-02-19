@@ -26,7 +26,7 @@ _Why this level?_ Students and RAs in the lab who are just learning how to scrip
 Provide me with a shell script and associated code for running this tool at the command line. Your tool should:
 
 * Take an input path as an argument,
-* Provide usage info for the arguments (and any flags you create), and
+* Provide usage info for the argument (and any flags you create), and
 * Be able to run over single files or batches of files, e.g., at input `PATH/*.eaf`
 
 Note: Use R or Python, as you like.
@@ -45,7 +45,7 @@ _Why this level?_ Everyone can use this tool, no matter their experience with pr
 
 ## Submission
 
-Please share with me a GitHub repo in which you have stored your code. If you are doing level 3, you can either just have me run the app myself locally using `shiny::runApp()` or you can host it and send me a URL (up to you!). Indicate in the README of that repo which level you have aimed at. I have a collection of other files similar to the example one that I will use to test your tool. I'm on a Mac so whatever you do to mitigate my needing to install things/change paths (e.g., from back- to forward-slash) is appreciated :)
+Please share with me a GitHub repo in which you have stored your code. If you are doing level 3, you can either just have me run the app myself locally using `shiny::runApp()` or you can host it and send me a URL (up to you). Indicate in the README of your repo which level you have aimed at. I have a collection of other files similar to the example one that I will use to test your tool. I'm on a Mac so whatever you do to mitigate my needing to install things/change paths (e.g., from back- to forward-slash) is appreciated :)
 
 ## Evaluation
 
