@@ -35,6 +35,6 @@ d_output <- d_processed %>%
   select(tier_name, super_tier, time_start, time_end, time_elapsed, content) %>% 
   arrange(tier_name)
 
-write.table(d_output, "out.txt", sep="\t", row.names=FALSE)
+write.table(d_output, "out.txt", sep="\t", row.names=FALSE, col.names = FALSE, quote=FALSE)
 
 
