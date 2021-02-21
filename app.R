@@ -8,7 +8,8 @@
 # Find out more about building applications with Shiny here:
 #
 #    http://shiny.rstudio.com/
-#
+
+# load packages
 library(shiny)
 library(tidyverse)
 library(here)
@@ -16,29 +17,32 @@ library(magick)
 library(readr)
 library(phonfieldwork)
 
-# Define UI for application that draws a histogram
+# load helper function
+source(here("processEAF.R"))
+
+# Define UI for application
 ui <- fluidPage(
 
     # Application title
     titlePanel("EAF to TXT"),
 
-    # Sidebar with a slider input for number of bins 
+    # Sidebar with file input and download ability
     sidebarLayout(
         sidebarPanel(
-            # Input: Select a file ----
+            # Input: Select a file ---------
             fileInput("file", "Choose EAF File",
                       multiple = FALSE,
                       accept =NULL),
             
             
-            # Horizontal line ----
+            # Horizontal line --------
             tags$hr(),
             
+            # Output: download data ---------
             downloadButton("downloadData", "Download")
         ),
-        # Button
         
-        # Show a plot of the generated distribution
+        # Show the loaded dataframe in main panel
         mainPanel(
            tableOutput("contents")
         )
@@ -51,67 +55,44 @@ server <- function(input, output) {
     
     output$contents <- renderTable({
         
-        # input$file1 will be NULL initially. After the user selects
-        # and uploads a file, head of that data file by default,
-        # or all rows if selected, will be shown.
-        
+        # input$file will be NULL initially. After the user selects
+        # and uploads a file, all rows  of that data file will be shown.
         req(input$file)
         
-        # when reading semicolon separated files,
-        # having a comma separator causes `read.csv` to error
+        # try to read in eaf file
         tryCatch(
             {
-                df <- as_tibble(eaf_to_df(input$file$datapath))
+                # use helper function to read and process input file for output
+                d_output <- processEAF(input$file$datapath)
             },
             error = function(e) {
                 # return a safeError if a parsing error occurs
                 stop(safeError(e))
             }
         )
-        
-        # add higher level tier and fix time information
-        d_processed <- df %>% 
-            mutate(super_tier = case_when(
-                str_detect(tier_name, "CHI") ~ "CHI",
-                str_detect(tier_name, "MA1") ~ "MA1",
-                str_detect(tier_name, "FA1") ~ "FA1"
-            )) %>% 
-            mutate(time_start = time_start*1000,
-                   time_end = time_end*1000,
-                   time_elapsed = time_end-time_start)
-        
-        # make output df look like txt file, select relevant rows and arrange
-        d_output <- d_processed %>% 
-            select(tier_name, super_tier, time_start, time_end, time_elapsed, content) %>% 
-            arrange(tier_name)
-
+        # if we read in file, return it!
         return(d_output)
-
-        
     })
 
     
-    # Downloadable txt of selected dataset ----
+    # Downloadable txt of uploaded file ----
     output$downloadData <- downloadHandler(
+        
+        #input: none
+        # output: filename for download
         filename = function() {
-            paste(input$file, ".txt", sep = "")
+            # TODO: remove .eaf from filename to save name of output (not working)
+            file <- input$file
+            str_remove(toString(file), ".eaf")
+            paste(file, ".txt", sep = "")
         },
+        
+        # input: filename of txt
+        # output: none, writes tab delimited txt file 
         content = function(file) {
-            df <- as_tibble(eaf_to_df(input$file$datapath))
-            # add higher level tier and fix time information
-            d_processed <- df %>% 
-                mutate(super_tier = case_when(
-                    str_detect(tier_name, "CHI") ~ "CHI",
-                    str_detect(tier_name, "MA1") ~ "MA1",
-                    str_detect(tier_name, "FA1") ~ "FA1"
-                )) %>% 
-                mutate(time_start = time_start*1000,
-                       time_end = time_end*1000,
-                       time_elapsed = time_end-time_start)
-            # make output df look like txt file, select relevant rows and arrange
-            d_output <- d_processed %>% 
-                select(tier_name, super_tier, time_start, time_end, time_elapsed, content) %>% 
-                arrange(tier_name)
+            # use helper function to read and process input file for output
+            d_output <- processEAF(input$file$datapath)
+            # write out txt file, use tabs to separate and don't include row or column names or quotes
             write.table(d_output, file, sep="\t", row.names=FALSE, col.names = FALSE, quote=FALSE)
         }
     )

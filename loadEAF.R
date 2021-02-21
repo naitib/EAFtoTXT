@@ -1,5 +1,5 @@
 # Filemname: loadEAF.R
-# Description: loads EAF into tibble, processes, outputs txtfile
+# Description: loads EAF into tibble, processes, outputs txtfile -- level 1 of technical task
 # Author: Naiti Bhatt
 
 # load packages
