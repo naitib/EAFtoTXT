@@ -28,11 +28,11 @@ d_processed <- d %>%
 d_processed <- d_processed %>% 
   mutate(time_start = time_start*1000,
             time_end = time_end*1000,
-         time_elapsed = time_end-time_start)
+         duration = time_end-time_start)
 
 # make output df look like txt file, select relevant rows and arrange
 d_output <- d_processed %>% 
-  select(tier_name, super_tier, time_start, time_end, time_elapsed, content) %>% 
+  select(tier_name, super_tier, time_start, time_end, duration, content) %>% 
   arrange(tier_name)
 
 write.table(d_output, "out.txt", sep="\t", row.names=FALSE, col.names = FALSE, quote=FALSE)
