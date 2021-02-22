@@ -24,11 +24,11 @@ processEAF <- function(filename) {
     )) %>% 
     mutate(time_start = time_start*1000,
            time_end = time_end*1000,
-           time_elapsed = time_end-time_start)
+           duration = time_end-time_start)
   
   # make output df look like txt file, select relevant rows and arrange to make it look better
   d_output <- d_processed %>% 
-    select(tier_name, super_tier, time_start, time_end, time_elapsed, content) %>% 
+    select(tier_name, super_tier, time_start, time_end, duration, content) %>% 
     arrange(tier_name)
   
   return(d_output)
