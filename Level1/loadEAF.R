@@ -11,7 +11,7 @@ library(phonfieldwork)
 
 
 # read in eaf file
-df <- eaf_to_df("5959-0GS0.eaf")
+df <- eaf_to_df(here::here("5959-0GS0.eaf"))
 
 # convert to tibble
 d <- as_tibble(df)
